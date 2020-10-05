@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="up.visulog.analyzer.TestCountCommitsPerAuthorPlugin" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-09-17T10:33:19" hostname="openroam-prg-hf-1-132-149.net.univ-paris-diderot.fr" time="0.005">
+  <properties/>
+  <testcase name="checkCommitSum" classname="up.visulog.analyzer.TestCountCommitsPerAuthorPlugin" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
