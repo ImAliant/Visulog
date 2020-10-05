@@ -8,6 +8,13 @@ import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Optional;
 
+/*
+    Le fichier CLILauncher.java possèdent deux méthodes : makeConfigFromCommandLineArgs(String[] args) et displayHelpAndExit().
+        La méthode makeConfigFromCommandLineArgs(String[] args) permet à l'utilisateur de choisir une des commandes disponibles 
+            ( les commandes sont expliquées avec des commentaires dans la méthode ).
+        La méthode displayHelpAndExit() permet à l'utilisateur de connnaître les commandes disponibles.
+*/
+
 public class CLILauncher {
 
     public static void main(String[] args) {
@@ -30,6 +37,11 @@ public class CLILauncher {
                     String pName = parts[0];
                     String pValue = parts[1];
                     switch (pName) {
+                        /*
+                            La commande "--addPlugin" (...)
+                            La commande "--loadConfigFile" charge un fichier et utilise sa configuration.La commande "--loadConfigFile" charge un fichier et utilise sa configuration.
+                            La commande "--justSaveConfigFile" sauvegarde un fichier de configuration.
+                        */
                         case "--addPlugin":
                             // TODO: parse argument and make an instance of PluginConfig
 
@@ -58,7 +70,10 @@ public class CLILauncher {
 
     private static void displayHelpAndExit() {
         System.out.println("Wrong command...");
-        //TODO: print the list of options and their syntax
+        System.out.println("Here are the available commands :");
+        System.out.println("  --addPlugin");
+        System.out.println("  --loadConfigFile");
+        System.out.println("  --justSaveConfigFile");
         System.exit(0);
     }
 }
