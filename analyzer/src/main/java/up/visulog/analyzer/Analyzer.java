@@ -5,13 +5,15 @@ import up.visulog.config.PluginConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Analyzer {
-    private final Configuration config;
-
-    private AnalyzerResult result;
+	
+	
+    private final Configuration config; // Map de plugin et un path (chemin d'acces
+    private AnalyzerResult result; // recup ce qu'il y'a 
 
     public Analyzer(Configuration config) {
         this.config = config;
@@ -20,11 +22,9 @@ public class Analyzer {
 
     public AnalyzerResult computeResults() {
         List<AnalyzerPlugin> plugins = new ArrayList<>(); // Création d'une liste de plugins.
-        for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) { 
+        for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) { // tranformation //CommitPerAuthor PluginConfig
         // Pour chaque plugin de config appelé en entrée : 
-            var pluginName = pluginConfigEntry.getKey(); // On stocke sa clé dans la variable "pluginName".
-            var pluginConfig = pluginConfigEntry.getValue(); // Et sa valeur dans la variable "pluginConfig".
-            var plugin = makePlugin(pluginName, pluginConfig); // Création d'un nouveau plugin avec ce nom et cette valeur.
+            var plugin = makePlugin(pluginConfigEntry.getKey(), pluginConfigEntry.getValue()); // Création d'un nouveau plugin avec ce nom et cette valeur.
             plugin.ifPresent(plugins::add); // Si ce plugin est bien présent, l'ajouter dans la liste de plugins.
         }
         // run all the plugins
@@ -37,12 +37,20 @@ public class Analyzer {
     // Retourne cette liste de plugins si son analyse s'est bien passée durant le test.
     
     // TODO: find a way so that the list of plugins is not hardcoded in this factory
-    private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {
-        switch (pluginName) {
-            case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
-            // Dans le cas où le nom du plugin est "countCommits", la fonction retourne le nombre de commits par auteur pour la config.
-            default : return Optional.empty();
-            // Sinon, elle retourne si le nombre de commits ajoutés est vide.
-        }
-    }   
+    @SuppressWarnings("unchecked")
+	private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {
+    	var map = pluginConfig.getMap();
+    	if(pluginName.equals(((Entry<String, PluginConfig>) map).getKey())) {
+    		return Optional.of(new CountCommitsPerAuthorPlugin(config));
+    	}
+    	 return Optional.empty();
+    }
+
+	public AnalyzerResult getResult() {
+		return result;
+	}
+
+	public void setResult(AnalyzerResult result) {
+		this.result = result;
+	}   
 }
