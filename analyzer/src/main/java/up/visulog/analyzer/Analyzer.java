@@ -12,39 +12,35 @@ import java.util.stream.Collectors;
 public class Analyzer {
 	
 	
-    private final Configuration config; // Map de plugin et un path (chemin d'acces
-    private AnalyzerResult result; // recup ce qu'il y'a 
+    private final Configuration config;
+    private AnalyzerResult result;
 
     public Analyzer(Configuration config) {
         this.config = config;
     }
-    // Construit un nouvel analyseur contenant une nouvelle configuration.
 
     public AnalyzerResult computeResults() {
-        List<AnalyzerPlugin> plugins = new ArrayList<>(); // Création d'une liste de plugins.
-        for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) { // tranformation //CommitPerAuthor PluginConfig
-        // Pour chaque plugin de config appelé en entrée : 
-            var plugin = makePlugin(pluginConfigEntry.getKey(), pluginConfigEntry.getValue()); // Création d'un nouveau plugin avec ce nom et cette valeur.
-            plugin.ifPresent(plugins::add); // Si ce plugin est bien présent, l'ajouter dans la liste de plugins.
+        List<AnalyzerPlugin> plugins = new ArrayList<>(); // Creation
+        for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) { 
+        
+            var plugin = makePlugin(pluginConfigEntry.getKey(), pluginConfigEntry.getValue());
+            plugin.ifPresent(plugins::add); 
         }
-        // run all the plugins
         // TODO: try running them in parallel
         for (var plugin: plugins) plugin.run();
 
-        // store the results together in an AnalyzerResult instance and return it
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList()));
     }
-    // Retourne cette liste de plugins si son analyse s'est bien passée durant le test.
     
     // TODO: find a way so that the list of plugins is not hardcoded in this factory
     @SuppressWarnings("unchecked")
-	private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {
-    	var map = pluginConfig.getMap();
-    	if(pluginName.equals(((Entry<String, PluginConfig>) map).getKey())) {
-    		return Optional.of(new CountCommitsPerAuthorPlugin(config));
-    	}
-    	 return Optional.empty();
-    }
+    private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {
+        switch (pluginName) {
+            case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
+            case "countMerges" : return Optional.of(new CountMergePerAuthorPlugin(config)); //classe pr�sente dans le prochaine mise � jour
+            default : return Optional.empty();
+        }
+    } 
 
 	public AnalyzerResult getResult() {
 		return result;
