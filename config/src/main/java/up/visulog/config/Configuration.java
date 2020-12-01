@@ -31,10 +31,12 @@ public class Configuration {
     
     /* Par défaut, on peut mettre n'importe quel type dans une map,
      * ici le type est limité à String pour la clé et PluginConfig pour la valeur
-      (la classe PluginConfig est pour l'instant vide )
+     * (la classe PluginConfig est pour l'instant vide )
     */
     private final Map<String, PluginConfig> plugins;
 
+
+    //Constructeur
     public Configuration(Path gitPath, Map<String, PluginConfig> plugins) {
         this.gitPath = gitPath;
         this.plugins = Map.copyOf(plugins);
