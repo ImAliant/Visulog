@@ -1,6 +1,6 @@
 package up.visulog.analyzer; // this file belongs to the package Analyzer
 
-import java.lang.module.Configuration;
+import java.util.List;
 
 // This class is an interface that groups related methods with empty bodies that are going to be implemented in other classes
 
@@ -9,6 +9,7 @@ public interface AnalyzerPlugin {
     interface Result {
         String getResultAsString();
         String getResultAsHtmlDiv();
+        List<String> getPluginInfoByArray();
     }
     /* fonctions in the interface Result that are going to be implemented and used in other classes
      * (in CountCommitPerAuthorPluging.java for example) on Result objects or object that implements the class Result
