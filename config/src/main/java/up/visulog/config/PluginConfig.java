@@ -6,13 +6,5 @@ package up.visulog.config;
 // TODO: define what this type should be (probably a Map: settingKey -> settingValue)
 public class PluginConfig {
 
-    //Attributs
-
-    private int val;
-
-
-
-
-    //Constructeur
-    public PluginConfig()
+//	public Map<String, String> getMap();
 }
