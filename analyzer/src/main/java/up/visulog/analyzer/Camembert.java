@@ -4,67 +4,48 @@ public class Camembert extends Graphique{
 	public Camembert(String n) {
 		super(n);
 	}
-	public void ouvrir_script() {
-		System.out.println("<script>");
+	
+	
+	
+	 
+	public String script(String test) {//doit être dans le head 
+		this.import_chartJS();
+		
+		return "<script>"+test+"</script>";
 	}
+
 	
-	public void var_context() { 
-		System.out.println("var context = document.getElementById('"+this.getNom_graphique()+"').getContext('2d')");
-	}// cette fonction permet de mettre du code dans l'element dans getElementById('')
+	public String toCamembert(ArrayList<String> noms, ArrayList<Integer> nb_tache) {
 	
-	public void data (ArrayList<String> noms, ArrayList<Integer> nb_tache, ArrayList<String> colors) {
-	System.out.println("var data = {\n");
+	String result = "var context = document.getElementById('"+this.getNom_graphique()+"').getContext('2d')";
+	result+="var data = {";
 	
-	
-	System.out.print("labels : [");
+	result+="labels : [";
 	for (int i =0;i<noms.size()-1;i++) {
-		System.out.print("'");
-		System.out.print(noms.get(i));
-		System.out.print("',");
+		result+="'";
+		result+=noms.get(i);
+		result+="',";
 	}
-	System.out.print(noms.get(noms.size()-1));
-	System.out.print("],");
+	result+="'"+noms.get(noms.size()-1)+"'],";
 	
-	System.out.println();
 	
-	System.out.println("datasets : [{");
-	System.out.print("data : [");
+	result+="datasets : [{ data : [";
 	for (int i =0;i<nb_tache.size()-1;i++) {
-		System.out.print(nb_tache.get(i));
-		System.out.print(",");
+		result+=nb_tache.get(i)+",";
 	}
-	System.out.print(nb_tache.get(nb_tache.size()-1));
-	System.out.print("],");
+	result+=nb_tache.get(nb_tache.size()-1)+"],";
+
+	result+="backgroundColor : ['blue','green','pink','red', 'purple', 'yellow', 'grey', 'orange', 'black']}]}";
 	
-	System.out.println();
+	result += "var config = { type : 'pie', data : data}";
 	
-	System.out.print("backgroundColor : [");
-	for (int i =0;i<colors.size()-1;i++) {
-		System.out.print("'");
-		System.out.print(colors.get(i));
-		System.out.print("',");
-	}
-	System.out.print(colors.get(colors.size()-1));
-	System.out.print("]");
 	
-	System.out.println();
-	System.out.println("}]");
-	System.out.println();
-	System.out.println("}");
-	}
+	result += "var camembert = new Chart (context, config)";
 	
-	public void var_config() {
-		System.out.println("var config = {");
-		System.out.println("type : 'pie',");
-		System.out.println("data : data}");
-	}
+	return result;
 	
-	public void var_camembert() {
-		System.out.println("var camembert = new Chart (context, config)");
-	}
-			
-	public void fermer_script() {
-		System.out.println("</script>");
-	}	
+			 
 	
 }
+}
+
