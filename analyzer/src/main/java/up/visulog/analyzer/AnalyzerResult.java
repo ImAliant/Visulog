@@ -30,7 +30,7 @@ public class AnalyzerResult {
     //les donnÃ©es de l'objet
     @Override
     public String toString() {
-        return subResults.stream().map(AnalyzerPlugin.Result::getResultAsString).reduce("", (acc, cur) -> acc + "\n" + cur);
+        return subResults.stream().map(AnalyzerPlugin.Result::getResultAsString).reduce("", (acc, cur) -> acc + cur);
     }
 
     public String toHTML() {
@@ -46,7 +46,7 @@ public class AnalyzerResult {
     	Graphique graph = new Graphique("graphique");
     	ArrayList<String> nomCommit = new ArrayList<String>();
     	ArrayList<String> nombreCommit = new ArrayList<String>();
-//    	C:\\Users\\Ropste\\Documents\\L2\\PréPro\\Projet\\visulog --addplugin=cOunTcommits
+
     	if((toString() != null)) {
 	    	String[] tab = toString().split(",");
 		    	for(String present: tab) {
