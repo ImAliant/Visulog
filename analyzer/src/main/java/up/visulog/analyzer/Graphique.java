@@ -1,3 +1,5 @@
+package up.visulog.analyzer;
+
 public class Graphique {
 	String nom_graphique;
 
