@@ -1,3 +1,5 @@
+package up.visulog.analyzer;
+
 import java.util.ArrayList;
 public class Camembert extends Graphique{
 
