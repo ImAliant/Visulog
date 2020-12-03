@@ -38,11 +38,12 @@ public class AnalyzerResult {
     }
     
   //Ce traitement sera provisoire car il n'est pas complet    - #WilliamBenakli
-    /**PROVISOIRE Cette fonction permet de créat un code HTMLFLOW avec le graphique compris
+    /**PROVISOIRE Cette fonction permet de crï¿½at un code HTMLFLOW avec le graphique compris
      * @param typegraphique
      * @return String (correspondant au site web avec graphique) #WilliamBenakli
      */
     public String createCodePageHtml(String typegraphique){
+    	
     	Graphique graph = new Graphique("graphique");
     	ArrayList<String> nomCommit = new ArrayList<String>();
     	ArrayList<String> nombreCommit = new ArrayList<String>();
@@ -56,19 +57,19 @@ public class AnalyzerResult {
 		    	}
 		    	return PageCreation.createPage("Commit", graph.import_chartJS(), graph.toGraph(typegraphique, nomCommit, nombreCommit), graph.ouvrir_canvas());
 	    }else {
-    		return "Une erreur est surevenue lors de la création de la page. Fichier .git introuvable";
+    		return "Une erreur est surevenue lors de la crï¿½ation de la page. Fichier .git introuvable";
     	}
     }
     
     
     /**
-     * Cette fonction crées un fichier .HTML #WilliamBenakli
+     * Cette fonction crï¿½es un fichier .HTML #WilliamBenakli
      * @param name Le nom du fichier
      * @param typegraphique Le type de graphique
      * 
      */
-    //TODO: Plutot que de créer un fichier au meme endroit que le plugin il serai
-    //préférable de créer un fichier siteWebPage au centre de graddle
+    //TODO: Plutot que de crï¿½er un fichier au meme endroit que le plugin il serai
+    //prï¿½fï¿½rable de crï¿½er un fichier siteWebPage au centre de graddle
     //Je vous laisse comment faire #WilliamBenakli
     public void createPageHtml(String name, String typegraphique) {
 	    	File desc = new File(name+".html");    	
@@ -84,8 +85,8 @@ public class AnalyzerResult {
 				try {
 					Desktop.getDesktop().browse(desc.toURI());
 				} catch (IOException e) {
-					System.out.println("Nous n'avons pas trouvé de navigateur par defaut pour ouvrir la page générée.");
-					System.out.println("Cependant les fichiers ont été crée : siteWebHtml/" + name + ".html");
+					System.out.println("Nous n'avons pas trouvï¿½ de navigateur par defaut pour ouvrir la page gï¿½nï¿½rï¿½e.");
+					System.out.println("Cependant les fichiers ont ï¿½tï¿½ crï¿½e : siteWebHtml/" + name + ".html");
 				}
 		}
 }
