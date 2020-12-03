@@ -35,3 +35,4 @@ public class TestCountCommitsPerAuthorPlugin { //déclaration de classe public
 	    assertEquals(entries, sum.longValue());// vérification  de l'égalitée 
     }
 }
+}
