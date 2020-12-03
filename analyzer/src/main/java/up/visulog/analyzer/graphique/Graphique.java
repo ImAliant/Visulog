@@ -19,14 +19,18 @@ public class Graphique{
 		 return "<canvas id='"+this.nom_graphique+"'></canvas>";
 	 } 
 
-	 public String import_chartJS() {//doit être dans le head
+	 public String import_chartJS() {//doit ï¿½tre dans le head
 		 return "<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js'></script>";
 		  
 	 }
 	 
 	public String toGraph(String type, ArrayList<String> noms, ArrayList<String> nombreCommit) {
 	
-		String result = "var context = document.getElementById('"+this.nom_graphique+"').getContext('2d'); ";
+		
+		String result = "function changeGraphique(){ $graphe = document.getElementById('graphiqueListe').value ; }  ";
+		String typeGraphe = "document.getElementById('graphiqueListe').value;";
+		result+="var context = document.getElementById('"+this.nom_graphique+"').getContext('2d'); ";
+		
 		result+="var data = {";
 		result+="labels : [";
 		for (int i =0;i<noms.size()-1;i++) {
@@ -41,7 +45,7 @@ public class Graphique{
 		}
 		result+=nombreCommit.get(nombreCommit.size()-1)+"],";
 		result+="backgroundColor : ['blue','green','red', 'purple', 'yellow', 'grey', 'orange', 'black','blue','green','red', 'purple', 'yellow', 'grey', 'orange', 'black']}]};";
-		result += "var config = { type : '"+verificationType(type)+"', data : data};";
+		result += "var config = { type : '"+typeGraphe+"', data : data};";
 		result += "var graph = new Chart (context, config);";
 		
 	return result;
