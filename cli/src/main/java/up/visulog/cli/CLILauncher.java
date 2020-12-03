@@ -61,7 +61,7 @@ public class CLILauncher {
 	                        // TODO: parse argument and make an instance of PluginConfig	
 	                        // Let's just trivially do this, before the TODO is fixed:
 	                        if (pValue.equalsIgnoreCase("countCommits"))plugins.put("countCommits", new PluginConfig() {});
-	                        if (pValue.equalsIgnoreCase("mergeCommits")) plugins.put("mergeCommits", new PluginConfig() {});
+                            if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
 	                        
 	//                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
 	//

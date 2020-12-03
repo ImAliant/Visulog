@@ -143,6 +143,11 @@ public class Commit {
     private static void parseError() {
         throw new RuntimeException("Wrong commit format.");
     }
+    
+
+    public boolean isMergeCommit() {
+        return mergedFrom != null;
+    }
 
     
     /*Commentaire: William Benakli
