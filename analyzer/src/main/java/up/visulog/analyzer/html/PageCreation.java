@@ -1,9 +1,13 @@
 package up.visulog.analyzer.html;
 
+import org.xmlet.htmlapifaster.EnumTypeInputType;
+
 import htmlflow.HtmlView;
 import htmlflow.StaticHtml;
 
 public class PageCreation {	
+	 
+
 	
 	/**Cette fonction utilise la librairie HTMLFLOW https://htmlflow.org/
 	 * Elle permet de generer un site et d'y integrer un graphique
@@ -32,7 +36,16 @@ public class PageCreation {
 	                	.__()
 		                .div().attrStyle("display: flex; flex-direction: column")
 		                	.p().attrStyle("margin: auto; margin-top: 80px;").text("WorkTeamStatus (WTS) | Premier graphique qui compte le nombre de commit par auteur ").__()
-		                	.div().attrStyle("margin: auto; height: 50%; width: 50%;").text(page).__()
+		                	.form()
+		                		.input().attrType(EnumTypeInputType.BUTTON).attrOnclick("changeGraphique()").attrValue("Sélection du graphe").__()
+		                		.select().attrId("graphiqueListe")
+		                			.option().text("pie").__()
+		                			.option().text("line").__()
+		                			.option().text("radar").__()
+		                			.option().text("bar").__()
+		                		.__()
+		                		.div().attrStyle("margin: auto; height: 50%; width: 50%;").text(page).__()
+		                	.__()
 		                	.p().attrStyle("margin: auto;").text("Le graphique actuelle est en barre ").__()
 		                .__()
 	                    .footer().attrClass("py-4 fixed-bottom bg-dark text-white-50")
