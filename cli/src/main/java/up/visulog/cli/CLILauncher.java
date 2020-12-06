@@ -4,6 +4,8 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.FileWriter;
+import java.io.IOException;
 /*
 La classe FileSystems définit des méthodes pour créer des systèmes de fichiers qui fournissent l'accès à d'autres types de systèmes de fichiers (personnalisés). 
 Un système de fichiers est la fabrique de plusieurs types d'objets: La méthode getPath convertit une chaîne de chemin dépendante du système, renvoyant un objet Path qui peut 
@@ -18,11 +20,14 @@ Cette classe ne donne aucune garantie quant à l'ordre de la carte. Elle est sim
 (valeurs nulles et clé nulle).
 */
 import java.util.HashMap;
+import java.util.Map;
 /*
 Optional est un objet conteneur utilisé pour contenir des objets non nuls. L'objet Optional est utilisé pour représenter null avec une valeur absente. 
 Cette classe a diverses méthodes utilitaires pour faciliter le code pour gérer les valeurs comme «disponibles» ou «non disponibles» au lieu de vérifier les valeurs nulles.
 */
 import java.util.Optional;
+
+import org.yaml.snakeyaml.Yaml;
 
 /*
     Le fichier CLILauncher.java possèdent deux méthodes : makeConfigFromCommandLineArgs(String[] args) et displayHelpAndExit().
@@ -54,7 +59,7 @@ public class CLILauncher {
                     String pValue = parts[1];
                     switch (pName.toLowerCase()) { //to Lower case = rendre ne miniscule
 	                	case "--allplugin":
-	                		// TODO : Ce system compile l'emsemble des plugins pr�sent dans nos plus
+	                		// TODO : Ce system compile l'emsemble des plugins pr�sent dans nos plus
 	                		//Il permet de gagner du temps quant a la generation d'un site de plugin #WilliamBenakli
 	                		break;
 	                    case "--addplugin":
@@ -68,13 +73,36 @@ public class CLILauncher {
 	//                        });
 	                        break;
 	                    case "--loadconfigfile":
-	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demand�s 
-	                		//Une fois fait il cr�er tous les plugins necessaires et cr�er le html correspondant #WilliamBenakli
+	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demand�s 
+	                		//Une fois fait il cr�er tous les plugins necessaires et cr�er le html correspondant #WilliamBenakli
 	                        break;
 	                    case "--justsaveconfigfile":
 	                        // TODO: (save command line options to a file instead of running the analysis)
-	                    	//Objectif est de cr�er un fichier File et d'y entrer les options et les commandes !
-	//                    	System.out.println("List de vos configuration pr�sent dans : " + filename.path()); #WilliamBenakli
+	                    	//Objectif est de cr�er un fichier File et d'y entrer les options et les commandes !
+	//                    	System.out.println("List de vos configuration pr�sent dans : " + filename.path()); #WilliamBenakli
+	                    	Yaml save=  new Yaml();
+	                    	String [] saveConfig= pValue.split(":");
+	                    	if(saveConfig.length>0) {
+	                    		Map <String,String> val = new HashMap<>();
+	                    		
+	                    		for(int i=0 ; i<saveConfig.length ; i++) {
+	              	                    			
+	                    			val.put("plugin" + i, saveConfig[i]);	
+	                    			
+	                    		}
+	                    		FileWriter writer;
+								try {
+									writer = new FileWriter("file.yaml");
+									 save.dump(val, writer);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+	                              
+	                    	}else {
+	                    		System.out.println("erreur --Help");
+	                    	}
+	                    	
 	                    	break;
 	                    default:
                         return Optional.empty();
@@ -89,12 +117,12 @@ public class CLILauncher {
 
     private static void displayHelpAndExit() {
         System.out.println("(WTS) Commande non reconnue");
-        System.out.println("# Commande pr�sente  #");
+        System.out.println("# Commande pr�sente  #");
         System.out.println("  --addPlugin=[countCommits,countMerges, countCommitsPerDate:00/00/00]");
         System.out.println("  --loadConfigFile");
         System.out.println("  --justSaveConfigFile");
         System.out.println("  --allPlugin");
-        System.out.println("# Commande pr�sente  #");
+        System.out.println("# Commande pr�sente  #");
         System.exit(0);
     }
 }
