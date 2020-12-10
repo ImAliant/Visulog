@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import up.visulog.analyzer.graphique.Graphique;
 import up.visulog.analyzer.html.PageCreation;
@@ -42,25 +44,13 @@ public class AnalyzerResult {
      * @param typegraphique
      * @return String (correspondant au site web avec graphique) #WilliamBenakli
      */
-    public String createCodePageHtml(String typegraphique){
-    	
+    @SuppressWarnings("unchecked")
+	public String createCodePageHtml(String typegraphique){
     	Graphique graph = new Graphique("graphique");
-    	ArrayList<String> nomCommit = new ArrayList<String>();
-    	ArrayList<String> nombreCommit = new ArrayList<String>();
-
-    	if((toString() != null)) {
-	    	String[] tab = toString().split(",");
-		    	for(String present: tab) {
-		    		System.out.println(present);
-		    		nomCommit.add(present.split("=")[0].replace("{", ""));
-		    		nombreCommit.add(present.split("=")[1].replace("}", ""));
-		    	}
-		    	return PageCreation.createPage("Commit", graph.import_chartJS(), graph.toGraph(typegraphique, nomCommit, nombreCommit), graph.ouvrir_canvas());
-	    }else {
-    		return "Une erreur est surevenue lors de la cr�ation de la page. Fichier .git introuvable";
-    	}
+    	Map<String, Integer> map =  subResults.get(0).getPluginInfoByArray();
+		return PageCreation.createPage("Commit", graph.import_chartJS(), graph.toGraph(typegraphique, new ArrayList<String>(map.keySet()), new ArrayList<Integer>(map.values())), graph.ouvrir_canvas());
+	 
     }
-    
     
     /**
      * Cette fonction cr�es un fichier .HTML #WilliamBenakli

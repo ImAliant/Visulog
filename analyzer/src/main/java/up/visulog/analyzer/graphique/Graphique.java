@@ -1,5 +1,6 @@
 package up.visulog.analyzer.graphique;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Random; 
  
 public class Graphique{
 	
@@ -25,7 +26,7 @@ public class Graphique{
 	 }
 	 
 	public String toGraph(String type, ArrayList<String> noms, ArrayList<String> nombreCommit) {
-	
+		Random r = new Random();
 		
 		String result = "function changeGraphique(){ $graphe = document.getElementById('graphiqueListe').value ; }  ";
 		String typeGraphe = "document.getElementById('graphiqueListe').value;";
@@ -44,7 +45,10 @@ public class Graphique{
 			result+=nombreCommit.get(i)+",";
 		}
 		result+=nombreCommit.get(nombreCommit.size()-1)+"],";
-		result+="backgroundColor : ['blue','green','red', 'purple', 'yellow', 'grey', 'orange', 'black','blue','green','red', 'purple', 'yellow', 'grey', 'orange', 'black']}]};";
+		result+="backgroundColor :  [ ";
+		for(int i =0;i<noms.size()-1;i++)
+			result+="'rgba(" + r.nextInt(255) +","+ r.nextInt(255) +","+ r.nextInt(255) +",1)', ";
+		result+="]}]};";		
 		result += "var config = { type : '"+typeGraphe+"', data : data};";
 		result += "var graph = new Chart (context, config);";
 		

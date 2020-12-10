@@ -62,10 +62,8 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
         }
         
         @Override //Pas encore achevé #WilliamBenakli
-        public ArrayList<String> getPluginInfoByArray() {
-        	ArrayList<String> typename= new ArrayList<String>();
-        	for (var item : commitsPerAuthor.entrySet()) typename.add(item.getKey()+"="+String.valueOf(item.getValue()));   	
-        	return typename;
+        public Map<String, Integer> getPluginInfoByArray() {
+        	 return commitsPerAuthor;
         }
 
     }
