@@ -57,10 +57,8 @@ public class CountCommitsPerDate  implements AnalyzerPlugin {
             return commitsPerDate.toString();
         }
         @Override //Pas encore achevé #WilliamBenakli
-        public ArrayList<String> getPluginInfoByArray() {
-        	ArrayList<String> typename= new ArrayList<String>();
-        	for (var item : commitsPerDate.entrySet()) typename.add(item.getKey()+"="+String.valueOf(item.getValue()));   	
-        	return typename;
+        public Map<String, Integer> getPluginInfoByArray() { 	
+        	return commitsPerDate;
         }
 
         @Override //redefinition de la methode getResultAsHtmlDiv() 
