@@ -14,12 +14,14 @@ systèmes de fichiers (personnalisés). Un système de fichiers est la fabrique 
 renvoyant un objet Path qui peut être utilisé pour localiser et accéder à un fichier.
 */
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 /*
 HashMap est une classe de collection basée sur Map qui est utilisée pour stocker des paires clé et valeur, elle est désignée par HashMap <Key, Value> ou HashMap <K, V>. 
 Cette classe ne donne aucune garantie quant à l'ordre de la carte. Elle est similaire à la classe Hashtable sauf qu'elle n'est pas synchronisée et autorise les valeurs nulles 
 (valeurs nulles et clé nulle).
 */
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /*
 Optional est un objet conteneur utilisé pour contenir des objets non nuls. L'objet Optional est utilisé pour représenter null avec une valeur absente. 
@@ -27,7 +29,10 @@ Cette classe a diverses méthodes utilitaires pour faciliter le code pour gérer
 */
 import java.util.Optional;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+
+
 
 /*
     Le fichier CLILauncher.java possèdent deux méthodes : makeConfigFromCommandLineArgs(String[] args) et displayHelpAndExit().
@@ -80,34 +85,36 @@ public class CLILauncher {
 	                        // TODO: (save command line options to a file instead of running the analysis)
 	                    	//Objectif est de cr�er un fichier File et d'y entrer les options et les commandes !
 	//                    	System.out.println("List de vos configuration pr�sent dans : " + filename.path()); #WilliamBenakli
-	                    	Yaml save=  new Yaml();
-	                    	String [] saveConfig= pValue.split(":");
-	                    	if(saveConfig.length>0) {
-	                    		Map <String,String> val = new HashMap<>();
-	                    		
-	                    		for(int i=0 ; i<saveConfig.length ; i++) {
-	              	                    			
-	                    			val.put("plugin" + i, saveConfig[i]);	
-	                    			
-	                    		}
-	                    		FileWriter writer;
-								try {
-									writer = new FileWriter("file.yaml");
-									 save.dump(val, writer);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-	                              
-	                    	}else {
-	                    		System.out.println("erreur --Help");
-	                    	}
-	                    	
-	                    	break;
-	                    default:
-                        return Optional.empty();
+	                    	DumperOptions options = new DumperOptions();
+                            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+                            options.setPrettyFlow(true);
+                            Yaml save=  new Yaml(options);
+                            String [] nameFile= pValue.split("/");
+                            String commandes = nameFile[1];
+                            String [] saveConfig= commandes.replace(" ", "$").split(":");
+                            if(saveConfig.length>0) {
+                                List <String> val = new ArrayList<String>();
+                                for(int i=0 ; i<saveConfig.length ; i++) {
+                                    val.add(saveConfig[i].replace("$", " "));   
+                                }
+                                FileWriter writer;
+                                try {
+                                    writer = new FileWriter(nameFile[0] + ".yml");
+                                     save.dump(val, writer);
+                                     System.out.println("Votre fichier a bien été enrengistré voir /configYaml/" + nameFile[0] + ".yml");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                  
+                            }else {
+                                System.out.println("erreur --Help");
+                            }
+                            	return Optional.empty();
+                            
+	                    	default:
+	                    	return Optional.empty();
+                    }
                 }
-            }
             } else {
                 gitPath = FileSystems.getDefault().getPath(arg);
             }
