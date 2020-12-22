@@ -6,6 +6,8 @@ public class CommitBuilder {
     private String date;
     private String description;
     private String mergedFrom;
+    // ajout test bjm:
+    private int nbLineAdd;
 
     //cette fonction initialise commitbuilder avec id ;
     public CommitBuilder(String id) {
@@ -39,8 +41,16 @@ public class CommitBuilder {
         this.mergedFrom = mergedFrom;
         return this;
     }
+    
+    //test bjm
+    //CETTE FONCTION sert a modifier nbLineAdd et return tout l'element de commit
+    //Builder avec nbLineAdd modifié
+    public CommitBuilder setNbLineAdd(int lineAdd) {
+        this.nbLineAdd = lineAdd;
+        return this;
+    }
     //Cette fonction crée une commit avec les valeur de commitbuilder
     public Commit createCommit() {
-        return new Commit(id, author, date, description, mergedFrom);
+        return new Commit(id, author, date, description, mergedFrom,nbLineAdd);
     }
 }
