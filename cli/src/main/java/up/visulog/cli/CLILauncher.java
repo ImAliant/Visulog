@@ -72,6 +72,9 @@ public class CLILauncher {
 	                        // Let's just trivially do this, before the TODO is fixed:
 	                        if (pValue.equalsIgnoreCase("countCommits"))plugins.put("countCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
+                            
+                           //test bjm
+	                        if(pValue.equalsIgnoreCase("countLinesAdd"))plugins.put("countLinesAdd",new PluginConfig(){});
 	                        
 	//                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
 	//
