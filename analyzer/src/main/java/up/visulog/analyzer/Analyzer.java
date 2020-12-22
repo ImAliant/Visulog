@@ -38,6 +38,8 @@ public class Analyzer {
         switch (pluginName) {
             case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
             case "countMergesCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
+            //test bjm
+            case "countLinesAdd" : return Optional.of(new CountLineAddPerAuthor(config));
             default : return Optional.empty();
         }
     } 
