@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="97076675-9141-4826-9da5-a72d901ef274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analyzer/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/analyzer/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kp9QtoqP0GQSgoSOzTyIR5BbbZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../POO/Projet 2020/p.r.s-basile-rayane-" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\Basile_L2\Prépro de merde\visulog\HTMLFlow" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="97076675-9141-4826-9da5-a72d901ef274" name="Default Changelist" comment="" />
+      <created>1606386653989</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606386653989</updated>
+      <workItem from="1606386656352" duration="7973000" />
+      <workItem from="1606729213108" duration="1315000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="223" y="135" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606390726998">
+      <screen x="0" y="0" width="1536" height="960" />
+    </state>
+    <state x="223" y="135" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.960/1920.-367.960.1536@0.0.1536.960" timestamp="1606390726998" />
+    <state x="528" y="282" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606387067903">
+      <screen x="0" y="0" width="1536" height="960" />
+    </state>
+    <state x="528" y="282" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.960/1920.-367.960.1536@0.0.1536.960" timestamp="1606387067903" />
+    <state x="549" y="222" key="FileChooserDialogImpl" timestamp="1606732657005">
+      <screen x="0" y="0" width="1536" height="960" />
+    </state>
+    <state x="549" y="222" key="FileChooserDialogImpl/0.0.1536.960/1920.-367.960.1536@0.0.1536.960" timestamp="1606732657005" />
+    <state x="277" y="125" key="SettingsEditor" timestamp="1606729251158">
+      <screen x="0" y="0" width="1536" height="960" />
+    </state>
+    <state x="277" y="125" key="SettingsEditor/0.0.1536.960/1920.-367.960.1536@0.0.1536.960" timestamp="1606729251158" />
+    <state x="360" y="101" key="new project wizard" timestamp="1606403742806">
+      <screen x="0" y="0" width="1536" height="960" />
+    </state>
+    <state x="360" y="101" key="new project wizard/0.0.1536.960/1920.-367.960.1536@0.0.1536.960" timestamp="1606403742806" />
+  </component>
+</project>
