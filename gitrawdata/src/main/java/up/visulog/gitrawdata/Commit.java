@@ -16,9 +16,10 @@ public class Commit {
 	    public final String author;
 	    public final String description;
 	    public final String mergedFrom;
-	    //ajout test bjm
 	    public final int nbLineAdd;
-	    
+	    public final int nbLineRemove;
+	    public final int nbAllModifiction;
+
     
     /*Commentaire: William Benakli
      * 
@@ -35,13 +36,15 @@ public class Commit {
      */
     
     //Constructeur assez basique vu en JAVA
-    public Commit(String id, String author, String date, String description, String mergedFrom,int nbLineAdd) {
+    public Commit(String id, String author, String date, String description, String mergedFrom,int nbLineAdd, int nbLineRemove, int nbAllModifiction) {
         this.id = id;
         this.author = author;
         this.date = date;
         this.description = description;
         this.mergedFrom = mergedFrom;
         this.nbLineAdd = nbLineAdd;
+        this.nbLineRemove = nbLineRemove;
+        this.nbAllModifiction = nbAllModifiction;
     }
     
     
@@ -57,11 +60,9 @@ public class Commit {
     public static List<Commit> parseLogFromCommand(Path gitPath) {
     	
     	//On recupere en fonction du chemin d'acces 
-        ProcessBuilder builder = new ProcessBuilder("git", "log","--date=short"," --shortstat", "-w").directory(gitPath.toFile());
+        ProcessBuilder builder = new ProcessBuilder("git", "log", "--numstat").directory(gitPath.toFile());
         //Process
         Process process;
-        
-        //On lance le process par un builder.start, en cas d'échec un RuntimeException nous est présenter avec l'erreur
         try {
             process = builder.start();
         } catch (IOException e) {
@@ -82,24 +83,28 @@ public class Commit {
         return result;
     }
 
-    /**
-     * Parses a log item and outputs a commit object. Exceptions will be thrown in case the input does not have the proper format.
-     * Returns an empty optional if there is nothing to parse anymore.
-     */
-    
-    
     public static Optional<Commit> parseCommit(BufferedReader input) {
         try {
 
             var line = input.readLine();
-            if (line == null) return Optional.empty(); // if no line can be read, we are done reading the buffer	
+            if (line == null) return Optional.empty(); // if no line can be read, we are done reading the buffer
             var idChunks = line.split(" ");
-            if (!idChunks[0].equals("commit")) parseError();
-            var builder = new CommitBuilder(idChunks[1]);
-            
-            //test bjm
-            boolean isMergeCommit = false;
+
+            int[] modification = new int[3];
+        	while(!idChunks[0].equals("commit")) {
+	        	if(idChunks[0].split("\t")[0].length() != 0 && !idChunks[0].split("\t")[0].equals("-")){
+	        		modification[0] = modification[0]+ Integer.valueOf(idChunks[0].split("\t")[0]);      
+	        		modification[1] = modification[1] + Integer.valueOf(idChunks[0].split("\t")[1]);            	
+	        	}
+	            line = input.readLine();
+	            if (line == null) return Optional.empty(); // if no line can be read, we are done reading the buffer	
+	            idChunks = line.split(" ");
+        	}
+        	
+        	if (!idChunks[0].equals("commit")) parseError();
+        	var builder = new CommitBuilder(idChunks[1]);
             line = input.readLine();
+            
             while (!line.isEmpty()) {
                 var colonPos = line.indexOf(":");
                 var fieldName = line.substring(0, colonPos);
@@ -109,25 +114,17 @@ public class Commit {
                         builder.setAuthor(fieldContent);
                         break;
                     case "Merge":
-                    	//test bjm
-                    	 isMergeCommit = true;
                         builder.setMergedFrom(fieldContent);
-                       
                         break;
                     case "Date":
                         builder.setDate(fieldContent);
                         break;
-                    case "LISTOPTION":
-                    	System.out.println("Les champs disponibles sont: Author, Merge, Date");
-                    	break;
-                    default:
-                    	/*
-                    	 * TODO: warn the user that some field was ignored
-                    	 */
-                    	System.out.println("Error commande invalide: Certaind de vos champs sont invalides.");
-                    	System.out.println("Pour plus d'infomartions effectué commit LISTOPTION");
-                    	break;
+                    default: // TODO: warn the user that some field was ignored
                 }
+                System.out.println("add " + modification[0] +" remove " + modification[1]);
+	            builder.setNbLineAdd(modification[0]);
+	            builder.setNbLineRemove(modification[1]);
+	            builder.setNbLineModify(modification[0] + modification[1]);
                 line = input.readLine(); //prepare next iteration
                 if (line == null) parseError(); // end of stream is not supposed to happen now (commit data incomplete)
             }
@@ -139,19 +136,6 @@ public class Commit {
                     .map(String::trim) // remove indentation
                     .reduce("", (accumulator, currentLine) -> accumulator + currentLine); // concatenate everything
             builder.setDescription(description);
-            
-            //test bjm
-            if (!isMergeCommit){ // si le commit n'est pas un commit de merge on compte le nombre d'inserstion
-                line = input.readLine();
-                while(line !=null && !line.isEmpty()){
-                    if(line.contains("insertions")||line.contains("insertion")) {
-                    builder.setNbLineAdd(CountLinesAdd(line));
-                    }
-                    line = input.readLine();
-                }
-            }
-            
-            
             return Optional.of(builder.createCommit());
         } catch (IOException e) {
             parseError();
@@ -159,17 +143,16 @@ public class Commit {
         return Optional.empty(); // this is supposed to be unreachable, as parseError should never return
     }
 
+
     
     // Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
     private static void parseError() {
         throw new RuntimeException("Wrong commit format.");
     }
     
-
     public boolean isMergeCommit() {
         return mergedFrom != null;
     }
-
     
     
     /*

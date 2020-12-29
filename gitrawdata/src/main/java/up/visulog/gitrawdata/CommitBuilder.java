@@ -6,9 +6,10 @@ public class CommitBuilder {
     private String date;
     private String description;
     private String mergedFrom;
-    // ajout test bjm:
     private int nbLineAdd;
-
+    private int nbLineRemove;
+    private int nbAllModifiction;
+    
     //cette fonction initialise commitbuilder avec id ;
     public CommitBuilder(String id) {
         this.id = id;
@@ -49,8 +50,19 @@ public class CommitBuilder {
         this.nbLineAdd = lineAdd;
         return this;
     }
+    
+    public CommitBuilder setNbLineRemove(int nbLineRemove) {
+        this.nbLineRemove = nbLineRemove;
+        return this;
+    }
+    
+    public CommitBuilder setNbLineModify(int nbAllModifiction) {
+        this.nbAllModifiction = nbAllModifiction;
+        return this;
+    }
+    
     //Cette fonction crée une commit avec les valeur de commitbuilder
     public Commit createCommit() {
-        return new Commit(id, author, date, description, mergedFrom,nbLineAdd);
+        return new Commit(id, author, date, description, mergedFrom,nbLineAdd, nbLineRemove, nbAllModifiction);
     }
 }
