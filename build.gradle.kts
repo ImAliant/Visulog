@@ -15,7 +15,3 @@ allprojects {
     java.sourceCompatibility = JavaVersion.VERSION_1_10
 
 }
-
-dependencies{
-    implementation("com.github.xmlet:htmlflow:3.5")
-}
