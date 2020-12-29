@@ -41,6 +41,7 @@ public class Analyzer {
             case "countDescriptionAndMergedCommits" : return Optional.of(new CountCommitsWithDescriptionAndMergedPlugin(config));
             case "countDescriptionCommits" : return Optional.of(new CountCommitsWithDescriptionPerAuthorsPlugin(config));
             case "countRemoveLine" : return Optional.of(new CountRemoveLinePerAutor(config));
+            case "countAllModifyLine" : return Optional.of(new CountModifyLinePerAuthors(config));
             default : return Optional.empty();
         }
     } 

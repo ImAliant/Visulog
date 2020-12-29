@@ -75,9 +75,10 @@ public class CLILauncher {
                             if (pValue.equalsIgnoreCase("countDescriptionAndMergedCommits")) plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countDescriptionCommits")) plugins.put("countDescriptionCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
+                            if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
                             //                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
-	//
-	//                        });
+	//  
+	//                        });           
 	                        break;
 	                    case "--loadconfigfile":
 	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demand�s 
