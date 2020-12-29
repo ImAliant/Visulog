@@ -11,8 +11,18 @@ import java.util.Optional;
 
 public class Commit {
 	
+	/*
+	 *  FIXME: (some of) these fields could have more specialized types than String
 	    public final String id;
 	    public final String date;
+	    public final String author;
+	    public final String description;
+	    public final String mergedFrom;
+	 */
+
+	
+	    public final int id;
+	    public final Date date;
 	    public final String author;
 	    public final String description;
 	    public final String mergedFrom;
@@ -31,15 +41,19 @@ public class Commit {
      * 
      *      
      */
+
     
     //Constructeur assez basique vu en JAVA
-    public Commit(String id, String author, String date, String description, String mergedFrom) {
+    public Commit(int id, String author, Date date, String description, String mergedFrom) {
         this.id = id;
         this.author = author;
         this.date = date;
         this.description = description;
         this.mergedFrom = mergedFrom;
     }
+
+    
+    
     
     
     /*Commentaire: William Benakli
@@ -69,6 +83,12 @@ public class Commit {
         return parseLog(reader);
     }
 
+    
+    
+   
+    
+    
+    
     public static List<Commit> parseLog(BufferedReader reader) {
         var result = new ArrayList<Commit>();
         Optional<Commit> commit = parseCommit(reader);
@@ -139,14 +159,10 @@ public class Commit {
     }
 
     
+    
     // Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
     private static void parseError() {
         throw new RuntimeException("Wrong commit format.");
-    }
-    
-
-    public boolean isMergeCommit() {
-        return mergedFrom != null;
     }
 
     
