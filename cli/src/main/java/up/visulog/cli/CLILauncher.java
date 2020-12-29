@@ -76,6 +76,7 @@ public class CLILauncher {
                             if (pValue.equalsIgnoreCase("countDescriptionCommits")) plugins.put("countDescriptionCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
+                            if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
                             //                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
 	//  
 	//                        });           
