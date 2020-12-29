@@ -10,7 +10,9 @@ dependencies {
     implementation(project(":analyzer"))
     implementation(project(":config"))
     implementation(project(":gitrawdata"))
+  	implementation(project(":webgen"))
     testImplementation("junit:junit:4.+")
+	compile ("org.yaml:snakeyaml:1.21")
 }
 
 
