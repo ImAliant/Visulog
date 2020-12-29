@@ -16,7 +16,9 @@ public class Commit {
 	    public final String author;
 	    public final String description;
 	    public final String mergedFrom;
-    
+	    //ajout test bjm
+	    public final int nbLineAdd;
+	    
     
     /*Commentaire: William Benakli
      * 
@@ -33,12 +35,13 @@ public class Commit {
      */
     
     //Constructeur assez basique vu en JAVA
-    public Commit(String id, String author, String date, String description, String mergedFrom) {
+    public Commit(String id, String author, String date, String description, String mergedFrom,int nbLineAdd) {
         this.id = id;
         this.author = author;
         this.date = date;
         this.description = description;
         this.mergedFrom = mergedFrom;
+        this.nbLineAdd = nbLineAdd;
     }
     
     
@@ -54,7 +57,7 @@ public class Commit {
     public static List<Commit> parseLogFromCommand(Path gitPath) {
     	
     	//On recupere en fonction du chemin d'acces 
-        ProcessBuilder builder = new ProcessBuilder("git", "log").directory(gitPath.toFile());
+        ProcessBuilder builder = new ProcessBuilder("git", "log","--date=short"," --shortstat", "-w").directory(gitPath.toFile());
         //Process
         Process process;
         
@@ -93,7 +96,9 @@ public class Commit {
             var idChunks = line.split(" ");
             if (!idChunks[0].equals("commit")) parseError();
             var builder = new CommitBuilder(idChunks[1]);
-
+            
+            //test bjm
+            boolean isMergeCommit = false;
             line = input.readLine();
             while (!line.isEmpty()) {
                 var colonPos = line.indexOf(":");
@@ -104,7 +109,10 @@ public class Commit {
                         builder.setAuthor(fieldContent);
                         break;
                     case "Merge":
+                    	//test bjm
+                    	 isMergeCommit = true;
                         builder.setMergedFrom(fieldContent);
+                       
                         break;
                     case "Date":
                         builder.setDate(fieldContent);
@@ -131,6 +139,19 @@ public class Commit {
                     .map(String::trim) // remove indentation
                     .reduce("", (accumulator, currentLine) -> accumulator + currentLine); // concatenate everything
             builder.setDescription(description);
+            
+            //test bjm
+            if (!isMergeCommit){ // si le commit n'est pas un commit de merge on compte le nombre d'inserstion
+                line = input.readLine();
+                while(line !=null && !line.isEmpty()){
+                    if(line.contains("insertions")||line.contains("insertion")) {
+                    builder.setNbLineAdd(CountLinesAdd(line));
+                    }
+                    line = input.readLine();
+                }
+            }
+            
+            
             return Optional.of(builder.createCommit());
         } catch (IOException e) {
             parseError();
@@ -149,6 +170,23 @@ public class Commit {
         return mergedFrom != null;
     }
 
+    
+    
+    /*
+     *test bjm
+    Fonction qui permet de compter le nombre de ligne ajouté par commit dans les fichiers 
+    */
+    public static int CountLinesAdd(String s){
+        int i = 0;
+        var descriptionSplit = s.split(",");
+        for(String part: descriptionSplit ){
+            part = part.trim();
+            var cut = part.split(" ");
+            if(part.charAt(part.length()-2)=='+')
+            i += Integer.parseInt(cut[0]);
+        }
+        return i;
+    }
     
     /*Commentaire: William Benakli
      * 
