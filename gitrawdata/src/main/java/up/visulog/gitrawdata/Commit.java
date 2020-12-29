@@ -155,21 +155,7 @@ public class Commit {
     }
     
     
-    /*
-     *test bjm
-    Fonction qui permet de compter le nombre de ligne ajouté par commit dans les fichiers 
-    */
-    public static int CountLinesAdd(String s){
-        int i = 0;
-        var descriptionSplit = s.split(",");
-        for(String part: descriptionSplit ){
-            part = part.trim();
-            var cut = part.split(" ");
-            if(part.charAt(part.length()-2)=='+')
-            i += Integer.parseInt(cut[0]);
-        }
-        return i;
-    }
+    
     
     /*Commentaire: William Benakli
      * 
