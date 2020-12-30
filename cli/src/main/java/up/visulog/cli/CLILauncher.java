@@ -65,15 +65,20 @@ public class CLILauncher {
                     String pValue = parts[1];
                     switch (pName.toLowerCase()) { //to Lower case = rendre ne miniscule
 	                	case "--allplugin":
-	                		// TODO : Ce system compile l'emsemble des plugins prï¿½sent dans nos plus
-	                		//Il permet de gagner du temps quant a la generation d'un site de plugin #WilliamBenakli
+	                		System.out.println(prefix + "Lancement de tous les plugins...");
+	                		plugins.put("countCommits", new PluginConfig() {});
+	                		plugins.put("countMergesCommits", new PluginConfig() {});
+	                		plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
+	                		plugins.put("countDescriptionCommits", new PluginConfig() {});
+	                		plugins.put("countRemoveLine", new PluginConfig() {});
+	                		plugins.put("countLineAdd", new PluginConfig() {});
+	                		plugins.put("countAllModifyLine", new PluginConfig() {});
+	                		System.out.println("... Fin de génération des plugins");
 	                		break;
                 		case "--listplugin":
                 			listPlugin();
                 			break;
 	                    case "--addplugin":
-	                        // TODO: parse argument and make an instance of PluginConfig	
-	                        // Let's just trivially do this, before the TODO is fixed:
 	                        if (pValue.equalsIgnoreCase("countCommits"))plugins.put("countCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countDescriptionAndMergedCommits")) plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
@@ -81,9 +86,7 @@ public class CLILauncher {
                             if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
-                            //                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
-	//  
-	//                        });           
+                            //if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {});           
 	                        break;
 	                    case "--loadconfigfile":
 	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demandï¿½s 
@@ -150,7 +153,7 @@ public class CLILauncher {
         System.out.println(" > countMergesCommits");
         System.out.println(" > countDescriptionAndMergedCommits");
         System.out.println(" > countDescriptionCommits");
-        System.out.println(" > countAllModifyLine");
+        System.out.println(" > countLineAdd");
         System.out.println(" > countRemoveLine");
         System.out.println(" > countAllModifyLine");
         System.out.println("# Commande presente  #");
