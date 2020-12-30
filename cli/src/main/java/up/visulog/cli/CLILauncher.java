@@ -68,6 +68,9 @@ public class CLILauncher {
 	                		// TODO : Ce system compile l'emsemble des plugins prï¿½sent dans nos plus
 	                		//Il permet de gagner du temps quant a la generation d'un site de plugin #WilliamBenakli
 	                		break;
+                		case "--listplugin":
+                			listPlugin();
+                			break;
 	                    case "--addplugin":
 	                        // TODO: parse argument and make an instance of PluginConfig	
 	                        // Let's just trivially do this, before the TODO is fixed:
@@ -140,4 +143,18 @@ public class CLILauncher {
 		System.out.println(prefix + "Erreur aucune entree sasie");
 		System.out.println(prefix + "Essayez avec 'help' comme entree pour plus d'info");
     }
+    private static void listPlugin() {
+        System.out.println("(WTS) Commande d'aide");
+        System.out.println("# Plugins proposés  #");
+        System.out.println(" > countCommits");
+        System.out.println(" > countMergesCommits");
+        System.out.println(" > countDescriptionAndMergedCommits");
+        System.out.println(" > countDescriptionCommits");
+        System.out.println(" > countAllModifyLine");
+        System.out.println(" > countRemoveLine");
+        System.out.println(" > countAllModifyLine");
+        System.out.println("# Commande presente  #");
+        System.exit(0);
+    }
+
 }
