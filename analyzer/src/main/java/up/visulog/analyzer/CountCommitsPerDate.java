@@ -1,5 +1,3 @@
-package up.visulog.analyzer;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,20 +12,26 @@ import up.visulog.gitrawdata.Commit;
 public class CountCommitsPerDate  implements AnalyzerPlugin {
 
 	private final Configuration configuration; 
+	private String[] args;
 	private Result result;
-	private static String date;
     
-    public CountCommitsPerDate(Configuration generalConfiguration) {
+    public CountCommitsPerDate(Configuration generalConfiguration, String[] args) {
         this.configuration = generalConfiguration;
+        this.args = args;
     }
-
-    static Result processLog(List<Commit> gitLog){
-        var result = new Result(); 
+    
+    Result processLog(List<Commit> gitLog){
+    	
+        var result = new Result();
         for (var commit : gitLog) { 
-        	//Pour l'instant il y'a pas de date à comparer mais ça viendra par la suite
-        	if(dateCompare(commit.date, date)) {
-            	var nb = result.commitsPerDate.getOrDefault(commit.date, 0); //
-            	result.commitsPerDate.put(commit.date, nb + 1); 	
+           	if(args.length == 0) {
+            	var nb = result.commitsPerDate.getOrDefault(commit.author, 0); //
+            	result.commitsPerDate.put(commit.author, nb + 1); 	
+        	}else if(args.length == 2) {
+            	if(dateCompare(args[0], args[1])) {
+                	var nb = result.commitsPerDate.getOrDefault(commit.author, 0); //
+                	result.commitsPerDate.put(commit.author, nb + 1); 	
+            	}
         	}
         }
         return result; 
@@ -49,14 +53,13 @@ public class CountCommitsPerDate  implements AnalyzerPlugin {
       
         Map<String, Integer> getCommitsPerWeek() {
             return commitsPerDate;
-
         }
 
         @Override
         public String getResultAsString() {
             return commitsPerDate.toString();
         }
-        @Override //Pas encore achevé #WilliamBenakli
+        @Override //Pas encore achevÃ© #WilliamBenakli
         public Map<String, Integer> getPluginInfoByArray() { 	
         	return commitsPerDate;
         }
@@ -75,7 +78,7 @@ public class CountCommitsPerDate  implements AnalyzerPlugin {
     
     //permet de comparer une date
     public static boolean dateCompare(String date, String dateCompare) {
-    	   SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");;
+    	   SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");;
     	    try {
 				return (format.parse(date).compareTo(format.parse(dateCompare)) <= 0);
 			} catch (ParseException e) {
@@ -84,4 +87,7 @@ public class CountCommitsPerDate  implements AnalyzerPlugin {
 			}
     }
     
+    public static String traitementDatePerCommits(String date) {
+    	return date.replace("-", "/");
+    }
 }
