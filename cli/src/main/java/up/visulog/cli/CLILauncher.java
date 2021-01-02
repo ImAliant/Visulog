@@ -32,24 +32,25 @@ import java.util.Optional;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-
-
-/*
-    Le fichier CLILauncher.java possèdent deux méthodes : makeConfigFromCommandLineArgs(String[] args) et displayHelpAndExit().
-        La méthode makeConfigFromCommandLineArgs(String[] args) permet à l'utilisateur de choisir une des commandes disponibles 
-            ( les commandes sont expliquées avec des commentaires dans la méthode ).
-        La méthode displayHelpAndExit() permet à l'utilisateur de connnaître les commandes disponibles.
-*/
-
 public class CLILauncher {
 
+    static String prefix = "(WVS) ";
+	
     public static void main(String[] args) {
-        var config = makeConfigFromCommandLineArgs(args);
-        if (config.isPresent()) {
-            var analyzer = new Analyzer(config.get());
-            var results = analyzer.computeResults();
-            results.createPageHtml("page", "pie"); // nom de la page et le type de graphique
-        } else displayHelpAndExit();
+    	if(args.length > 0) {
+    		if(args[0].equalsIgnoreCase("help")) {
+    			displayHelpAndExit();
+    			return;
+    		}
+	        var config = makeConfigFromCommandLineArgs(args);
+	        if (config.isPresent()) {
+	            var analyzer = new Analyzer(config.get());
+	            var results = analyzer.computeResults();
+	            results.createPageHtml("page", "pie"); // nom de la page et le type de graphique
+	        } else displayHelpAndExit();	
+	}else {
+		displayErreur();
+	}
     }
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
@@ -64,12 +65,20 @@ public class CLILauncher {
                     String pValue = parts[1];
                     switch (pName.toLowerCase()) { //to Lower case = rendre ne miniscule
 	                	case "--allplugin":
-	                		// TODO : Ce system compile l'emsemble des plugins pr�sent dans nos plus
-	                		//Il permet de gagner du temps quant a la generation d'un site de plugin #WilliamBenakli
+	                		System.out.println(prefix + "Lancement de tous les plugins...");
+	                		plugins.put("countCommits", new PluginConfig() {});
+	                		plugins.put("countMergesCommits", new PluginConfig() {});
+	                		plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
+	                		plugins.put("countDescriptionCommits", new PluginConfig() {});
+	                		plugins.put("countRemoveLine", new PluginConfig() {});
+	                		plugins.put("countLineAdd", new PluginConfig() {});
+	                		plugins.put("countAllModifyLine", new PluginConfig() {});
+	                		System.out.println("... Fin de g�n�ration des plugins");
 	                		break;
+                		case "--listplugin":
+                			listPlugin();
+                			break;
 	                    case "--addplugin":
-	                        // TODO: parse argument and make an instance of PluginConfig	
-	                        // Let's just trivially do this, before the TODO is fixed:
 	                        if (pValue.equalsIgnoreCase("countCommits"))plugins.put("countCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countDescriptionAndMergedCommits")) plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
@@ -77,18 +86,13 @@ public class CLILauncher {
                             if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
-                            //                        if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {
-	//  
-	//                        });           
+                            //if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {});           
 	                        break;
 	                    case "--loadconfigfile":
 	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demand�s 
 	                		//Une fois fait il cr�er tous les plugins necessaires et cr�er le html correspondant #WilliamBenakli
 	                        break;
 	                    case "--justsaveconfigfile":
-	                        // TODO: (save command line options to a file instead of running the analysis)
-	                    	//Objectif est de cr�er un fichier File et d'y entrer les options et les commandes !
-	//                    	System.out.println("List de vos configuration pr�sent dans : " + filename.path()); #WilliamBenakli
 	                    	DumperOptions options = new DumperOptions();
                             options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
                             options.setPrettyFlow(true);
@@ -127,13 +131,33 @@ public class CLILauncher {
     }
 
     private static void displayHelpAndExit() {
-        System.out.println("(WTS) Commande non reconnue");
-        System.out.println("# Commande pr�sente  #");
-        System.out.println("  --addPlugin=[countCommits,countMerges, countCommitsPerDate:00/00/00]");
+        System.out.println("(WTS) Commande d'aide");
+        System.out.println("# Commande presente  #");
+        System.out.println("  --addPlugin=[countCommits,countMerges,countAllModifyLine]");
+        System.out.println("  --listPlugin");
         System.out.println("  --loadConfigFile");
         System.out.println("  --justSaveConfigFile");
         System.out.println("  --allPlugin");
-        System.out.println("# Commande pr�sente  #");
+        System.out.println("# Commande presente  #");
         System.exit(0);
     }
+
+    private static void displayErreur() {
+		System.out.println(prefix + "Erreur aucune entree sasie");
+		System.out.println(prefix + "Essayez avec 'help' comme entree pour plus d'info");
+    }
+    private static void listPlugin() {
+        System.out.println("(WTS) Commande d'aide");
+        System.out.println("# Plugins propos�s  #");
+        System.out.println(" > countCommits");
+        System.out.println(" > countMergesCommits");
+        System.out.println(" > countDescriptionAndMergedCommits");
+        System.out.println(" > countDescriptionCommits");
+        System.out.println(" > countLineAdd");
+        System.out.println(" > countRemoveLine");
+        System.out.println(" > countAllModifyLine");
+        System.out.println("# Commande presente  #");
+        System.exit(0);
+    }
+
 }
