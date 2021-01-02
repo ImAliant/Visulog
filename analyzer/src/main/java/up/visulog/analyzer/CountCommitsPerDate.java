@@ -1,3 +1,5 @@
+package up.visulog.analyzer;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,11 +29,11 @@ public class CountCommitsPerDate  implements AnalyzerPlugin {
            	if(args.length == 0) {
             	var nb = result.commitsPerDate.getOrDefault(commit.author, 0); //
             	result.commitsPerDate.put(commit.author, nb + 1); 	
-        	}else if(args.length == 2) {
-            	if(dateCompare(args[0], args[1])) {
+        	}else {
+            	if(dateCompare(traitementDatePerCommits(commit.date), args[0])) {
                 	var nb = result.commitsPerDate.getOrDefault(commit.author, 0); //
                 	result.commitsPerDate.put(commit.author, nb + 1); 	
-            	}
+            	}	
         	}
         }
         return result; 
