@@ -18,7 +18,14 @@ public class Analyzer {
     public Analyzer(Configuration config) {
         this.config = config;
     }
+    
 
+    /**
+     * A partir d'une configuration elle créer les plugins et les creer un object AnalyzerResult avec 
+     * une la liste de plugin dans config;
+     * 
+     * @return AnalyzeResult 
+     */
     public AnalyzerResult computeResults() {
         List<AnalyzerPlugin> plugins = new ArrayList<>(); // Creation
         for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) { 
@@ -26,9 +33,14 @@ public class Analyzer {
             var plugin = makePlugin(pluginConfigEntry.getKey(), pluginConfigEntry.getValue());
             plugin.ifPresent(plugins::add); 
         }
-        // TODO: try running them in parallel
-        for (var plugin: plugins) plugin.run();
-
+        for (var plugin: plugins) {
+            Thread t = new Thread() {
+                public void run() {
+                	plugin.run();
+                }
+              };
+              t.start();
+        }
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList()));
     }
     
@@ -43,6 +55,8 @@ public class Analyzer {
             case "countRemoveLine" : return Optional.of(new CountRemoveLinePerAutor(config));
             case "countAllModifyLine" : return Optional.of(new CountModifyLinePerAuthors(config));
             case "countLineAdd" : return Optional.of(new CountLineAddPerAuthor(config));
+            case "countCommitPerDate" : return Optional.of(new CountCommitsPerDate(config, pluginConfig.getArg()));
+            case "countCommitPerTwoDate" : return Optional.of(new CountCommitsPerTwoDate(config, pluginConfig.getArg()));
             default : return Optional.empty();
         }
     } 
