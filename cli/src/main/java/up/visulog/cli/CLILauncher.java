@@ -4,6 +4,8 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 /*
@@ -28,6 +30,7 @@ Optional est un objet conteneur utilisé pour contenir des objets non nuls. L'ob
 Cette classe a diverses méthodes utilitaires pour faciliter le code pour gérer les valeurs comme «disponibles» ou «non disponibles» au lieu de vérifier les valeurs nulles.
 */
 import java.util.Optional;
+import java.util.Scanner;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -43,16 +46,36 @@ public class CLILauncher {
     			return;
     		}
 	        var config = makeConfigFromCommandLineArgs(args);
+		    if(config == null) return;
 	        if (config.isPresent()) {
-	            var analyzer = new Analyzer(config.get());
-	            var results = analyzer.computeResults();
-	            results.createPageHtml("page", "pie"); // nom de la page et le type de graphique
+	        	TraitementPlugin(config.get());
+	            System.out.println("Vous avez gener� " + config.get().getPluginConfigs().keySet().toString());	
 	        } else displayHelpAndExit();	
 	}else {
 		displayErreur();
 	}
     }
+    
+    /**
+     * Cette fonction factorise la fonction main pour plus de lisibilit�
+     * @param configuartion qui prend une configuration en parametre
+     * @return void 
+     * #CommenterParWilliamBenakli
+     */
+    static void TraitementPlugin(Configuration configuartion) {
+        var analyzer = new Analyzer(configuartion);
+        var results = analyzer.computeResults();
+        for(int i = 0; i < results.getSubResults().size(); i++)
+            results.createPageHtml((String) configuartion.getPluginConfigs().keySet().toArray()[i], (String) configuartion.getPluginConfigs().keySet().toArray()[i], i);
+}
 
+    
+    /**
+     * Repond a la demande de l'utilisateur et cr�er les plugins en foncitons de l'entree  
+     * @param args Les arguments entr�e depuis une console 
+     * @return Optional<Configuration> Une configuration (un object avec une Map qui contient des plugins); 
+     * #CommenterParWilliamBenakli
+     */
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
         var gitPath = FileSystems.getDefault().getPath(".");
         var plugins = new HashMap<String, PluginConfig>();
@@ -86,11 +109,31 @@ public class CLILauncher {
                             if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
                             if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
-                            //if (pValue.equalsIgnoreCase("countCommitPerDate:54050:WILLIAM")) plugins.put("countCommitPerDate--29/59/2002", new PluginConfig() {});           
-	                        break;
+	                        else if (pValue.equalsIgnoreCase("countCommitPerDate")) {plugins.put("countCommitPerDate", new PluginConfig(parts[2]) {});           }
+	                        else if (pValue.equalsIgnoreCase("countCommitPerTwoDate")) {plugins.put("countCommitPerTwoDate", new PluginConfig(parts[2], parts[3]) {});}
+                            break;
 	                    case "--loadconfigfile":
-	                		// TODO: Ce system prend en parametre un fichier YAML et recherche toutes les plugins demand�s 
-	                		//Une fois fait il cr�er tous les plugins necessaires et cr�er le html correspondant #WilliamBenakli
+	                    	if(pValue.length() <= 0) {
+	                    		System.out.println(prefix + "Aucun chemin entre en parametre ");
+	                    		break;
+	                    	}
+	                    	File file = new File(pValue);
+	                    	if(!file.exists()) {
+	                    		System.out.println(prefix + "Chemin du fichier n'est pas valide");
+	                    		break;
+	                    	}
+	                    	Scanner scnr = null;
+							try {
+								scnr = new Scanner(file);
+							} catch (FileNotFoundException e1) {
+								e1.printStackTrace();
+							}
+	                    	 String line = "";
+	                         while(scnr.hasNextLine())line += scnr.nextLine();
+	                         String[] pluginsNext = line.split("-");
+	                    	  for(String plugin :pluginsNext)   plugins.put(plugin.replace(" ", ""), new PluginConfig() {});
+	                    	  
+	                    	  scnr.close();
 	                        break;
 	                    case "--justsaveconfigfile":
 	                    	DumperOptions options = new DumperOptions();
@@ -102,23 +145,20 @@ public class CLILauncher {
                             String [] saveConfig= commandes.replace(" ", "$").split(":");
                             if(saveConfig.length>0) {
                                 List <String> val = new ArrayList<String>();
-                                for(int i=0 ; i<saveConfig.length ; i++) {
-                                    val.add(saveConfig[i].replace("$", " "));   
-                                }
+                                for(int i=0 ; i<saveConfig.length ; i++) val.add(saveConfig[i].replace("$", " "));   
                                 FileWriter writer;
                                 try {
                                     writer = new FileWriter(nameFile[0] + ".yml");
                                      save.dump(val, writer);
-                                     System.out.println("Votre fichier a bien été enrengistré voir /configYaml/" + nameFile[0] + ".yml");
+                                     System.out.println("Votre fichier a bien ete enrengistre voir /configYaml/" + nameFile[0] + ".yml");
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                                   
                             }else {
-                                System.out.println("erreur --Help");
+                                System.out.println("erreur: help");
                             }
-                            	return Optional.empty();
-                            
+                            return null;
 	                    	default:
 	                    	return Optional.empty();
                     }
@@ -130,6 +170,10 @@ public class CLILauncher {
         return Optional.of(new Configuration(gitPath, plugins));
     }
 
+    /**
+     * Affiche un panel d'aide
+     *  #CommenterParWilliamBenakli
+     */
     private static void displayHelpAndExit() {
         System.out.println("(WTS) Commande d'aide");
         System.out.println("# Commande presente  #");
@@ -142,10 +186,18 @@ public class CLILauncher {
         System.exit(0);
     }
 
+    /**
+     * Affiche un message d'erreur
+     *  #CommenterParWilliamBenakli
+     */
     private static void displayErreur() {
 		System.out.println(prefix + "Erreur aucune entree sasie");
 		System.out.println(prefix + "Essayez avec 'help' comme entree pour plus d'info");
     }
+    
+    /**
+     * Affiche la liste des pugins
+     */
     private static void listPlugin() {
         System.out.println("(WTS) Commande d'aide");
         System.out.println("# Plugins propos�s  #");
@@ -156,6 +208,8 @@ public class CLILauncher {
         System.out.println(" > countLineAdd");
         System.out.println(" > countRemoveLine");
         System.out.println(" > countAllModifyLine");
+        System.out.println(" > countCommitPerDate=10/10/2000");
+        System.out.println(" > countCommitPerTwoDate=10/10/2000=10/11/2000");
         System.out.println("# Commande presente  #");
         System.exit(0);
     }
