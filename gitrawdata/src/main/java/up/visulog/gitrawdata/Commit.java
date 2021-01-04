@@ -121,7 +121,6 @@ public class Commit {
                         break;
                     default: // TODO: warn the user that some field was ignored
                 }
-                System.out.println("add " + modification[0] +" remove " + modification[1]);
 	            builder.setNbLineAdd(modification[0]);
 	            builder.setNbLineRemove(modification[1]);
 	            builder.setNbLineModify(modification[0] + modification[1]);

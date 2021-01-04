@@ -79,39 +79,46 @@ public class CLILauncher {
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
         var gitPath = FileSystems.getDefault().getPath(".");
         var plugins = new HashMap<String, PluginConfig>();
+       
         for (var arg : args) {
             if (arg.startsWith("--")) {
                 String[] parts = arg.split("=");
-                if (parts.length != 2) return Optional.empty();
-                else {
+                if (parts.length == 0) return Optional.empty();
+                else if(parts.length == 1){
                     String pName = parts[0];
-                    String pValue = parts[1];
-                    switch (pName.toLowerCase()) { //to Lower case = rendre ne miniscule
+                	switch(pName.toLowerCase()) {
 	                	case "--allplugin":
-	                		System.out.println(prefix + "Lancement de tous les plugins...");
+	                		System.out.println(prefix + "Génération de tous les plugins..."); 
 	                		plugins.put("countCommits", new PluginConfig() {});
-	                		plugins.put("countMergesCommits", new PluginConfig() {});
+	                		plugins.put("countMergesCommits", new PluginConfig() {}); 
 	                		plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
 	                		plugins.put("countDescriptionCommits", new PluginConfig() {});
 	                		plugins.put("countRemoveLine", new PluginConfig() {});
 	                		plugins.put("countLineAdd", new PluginConfig() {});
 	                		plugins.put("countAllModifyLine", new PluginConfig() {});
-	                		System.out.println("... Fin de génération des plugins");
 	                		break;
-                		case "--listplugin":
-                			listPlugin();
-                			break;
+	            		case "--listplugin":
+	            			listPlugin();
+                			return Optional.empty();
+	            		default:
+                    	return Optional.empty();
+                	}
+                }else { 
+                    String pName = parts[0];
+                    String pValue = parts[1];
+                    switch (pName.toLowerCase()) { //to Lower case = rendre en miniscule
 	                    case "--addplugin":
 	                        if (pValue.equalsIgnoreCase("countCommits"))plugins.put("countCommits", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countDescriptionAndMergedCommits")) plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countDescriptionCommits")) plugins.put("countDescriptionCommits", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
-                            if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countMergesCommits")) plugins.put("countMergesCommits", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countDescriptionAndMergedCommits")) plugins.put("countDescriptionAndMergedCommits", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countDescriptionCommits")) plugins.put("countDescriptionCommits", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countRemoveLine")) plugins.put("countRemoveLine", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countAllModifyLine")) plugins.put("countAllModifyLine", new PluginConfig() {});
+	                        else if (pValue.equalsIgnoreCase("countLineAdd")) plugins.put("countLineAdd", new PluginConfig() {});
 	                        else if (pValue.equalsIgnoreCase("countCommitPerDate")) {plugins.put("countCommitPerDate", new PluginConfig(parts[2]) {});           }
 	                        else if (pValue.equalsIgnoreCase("countCommitPerTwoDate")) {plugins.put("countCommitPerTwoDate", new PluginConfig(parts[2], parts[3]) {});}
-                            break;
+	                        else return Optional.empty();
+	                        break;
 	                    case "--loadconfigfile":
 	                    	if(pValue.length() <= 0) {
 	                    		System.out.println(prefix + "Aucun chemin entre en parametre ");
@@ -146,28 +153,30 @@ public class CLILauncher {
                             if(saveConfig.length>0) {
                                 List <String> val = new ArrayList<String>();
                                 for(int i=0 ; i<saveConfig.length ; i++) val.add(saveConfig[i].replace("$", " "));   
+                                
                                 FileWriter writer;
                                 try {
                                     writer = new FileWriter(nameFile[0] + ".yml");
                                      save.dump(val, writer);
-                                     System.out.println("Votre fichier a bien ete enrengistre voir /configYaml/" + nameFile[0] + ".yml");
+                                     System.out.println("Votre fichier a bien ete enrengistree voir /" + nameFile[0] + ".yml");
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                                   
                             }else {
-                                System.out.println("erreur: help");
+                                System.out.println("erreur fait: help");
                             }
-                            return null;
+                    			return null;
 	                    	default:
-	                    	return Optional.empty();
+	                    		return Optional.empty();
                     }
                 }
             } else {
                 gitPath = FileSystems.getDefault().getPath(arg);
             }
         }
-        return Optional.of(new Configuration(gitPath, plugins));
+        
+		return Optional.of(new Configuration(gitPath, plugins));
     }
 
     /**
