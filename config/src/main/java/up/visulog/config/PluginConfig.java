@@ -1,10 +1,15 @@
 package up.visulog.config;
 
-//Un PluginConfig va servir en tant que valeur d'un objet de type Map.
-//
-//Une Map contient une clÃ© et une valeur
-// TODO: define what this type should be (probably a Map: settingKey -> settingValue)
+
 public class PluginConfig {
 
-//	public Map<String, String> getMap();
+	//Nous avons decidé de mettre un tableau d'arguement #CommenteParWilliamBenakli
+	String[] args;
+	public PluginConfig(){}
+	public PluginConfig(String ... arg){
+		this.args = arg;
+	}
+	public String[] getArg() {
+		return args;
+	}
 }
