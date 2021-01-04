@@ -25,9 +25,15 @@ public class Graphique{
           
      }
      
-    public String toGraph(String type, ArrayList<String> noms, ArrayList<Integer> nombreCommit) {
+     
+    /**Cette fonction enrevoie du javascript qui créer un graphique à partir de l'outils chartJS
+     * @param noms Une arraylist associé
+     * @param nombreCommit Une arraylist associé
+     * @return String qui est le js
+     */
+    public String toGraph(ArrayList<String> noms, ArrayList<Integer> nombreCommit) {
         Random r = new Random();
-        String result = "";
+        String result = "";   
         		 result += "var graph;";
         		 result += "var config;";
         		 result += "function changeGraphique(){";
@@ -61,13 +67,4 @@ public class Graphique{
     return result;
 }
     
-    public String verificationType(String type) {
-        String[] list = {"bar", "pie", "radar", "line", "doughnut"};
-        for(String str: list) {
-            if(str.equalsIgnoreCase(type.toLowerCase())) {
-                return type.toLowerCase();
-            }
-        }
-        return "pie";
-    }
 }
