@@ -11,12 +11,12 @@ public class PageCreation {
     
     /**Cette fonction utilise la librairie HTMLFLOW https://htmlflow.org/
      * Elle permet de generer un site et d'y integrer un graphique
-     * elle utilise la librairie boostrap pour  un meilleur affichage #WilliamBenakli
-     * @param title
-     * @param importscript
-     * @param script
-     * @param page
+     * elle utilise la librairie boostrap pour  un meilleur affichage 
+     * @param importscript Prend un import javascript
+     * @param script Attend du javaScript
+     * @param page Place du text directement
      * @return String (correspondant au site en html / js)
+     * #CommenterParWilliamBenakli
      */
     public static String createPage(String title, String importscript, String script, String page) {
         String boostrap = "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css\" integrity=\"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2\" crossorigin=\"anonymous\">\r\n";
