@@ -51,8 +51,8 @@ public class Commit {
     /*Commentaire: William Benakli
      * 
      * Fonction : parseLogFromCommand | Recupere et sépare depuis une commande
-     * Parametre: Path gitPath | Path est un chemin d'entrée donc gitPath est un chemin expl: "/document/git..."
-     * Retourne: List<Commit> | Elle retourne une list de commit présent dans le chemin
+     * @param Path gitPath | Path est un chemin d'entrée donc gitPath est un chemin expl: "/document/git..."
+     * @return List<Commit> | Elle retourne une list de commit présent dans le chemin
      * 
      * 
      */
@@ -60,7 +60,7 @@ public class Commit {
     public static List<Commit> parseLogFromCommand(Path gitPath) {
     	
     	//On recupere en fonction du chemin d'acces 
-        ProcessBuilder builder = new ProcessBuilder("git", "log", "--numstat").directory(gitPath.toFile());
+        ProcessBuilder builder = new ProcessBuilder("git", "log", "--numstat", "--date=short").directory(gitPath.toFile());
         //Process
         Process process;
         try {
