@@ -39,35 +39,31 @@ public class AnalyzerResult {
         return "<html><body>"+subResults.stream().map(AnalyzerPlugin.Result::getResultAsHtmlDiv).reduce("", (acc, cur) -> acc + cur) + "</body></html>";
     }
     
-  //Ce traitement sera provisoire car il n'est pas complet    - #WilliamBenakli
-    /**PROVISOIRE Cette fonction permet de cr�at un code HTMLFLOW avec le graphique compris
+    /**
      * @param typegraphique
      * @return String (correspondant au site web avec graphique) #WilliamBenakli
      */
     @SuppressWarnings("unchecked")
-	public String createCodePageHtml(String typegraphique){
+	public String createCodePageHtml(String namePlugin, int pluginpos){
     	Graphique graph = new Graphique("graphique");
-    	Map<String, Integer> map =  subResults.get(0).getPluginInfoByArray();
-		return PageCreation.createPage("Commit", graph.import_chartJS(), graph.toGraph(typegraphique, new ArrayList<String>(map.keySet()), new ArrayList<Integer>(map.values())), graph.ouvrir_canvas());
-	 
-    }
+    	Map<String, Integer> map =  subResults.get(pluginpos).getPluginInfoByArray();
+		return PageCreation.createPage(namePlugin, graph.import_chartJS(), graph.toGraph(new ArrayList<String>(map.keySet()), new ArrayList<Integer>(map.values())), graph.ouvrir_canvas());
+    } 
     
     /**
-     * Cette fonction cr�es un fichier .HTML #WilliamBenakli
+     * Cette fonction crees un fichier .HTML #WilliamBenakli
      * @param name Le nom du fichier
      * @param typegraphique Le type de graphique
      * 
      */
-    //TODO: Plutot que de cr�er un fichier au meme endroit que le plugin il serai
-    //pr�f�rable de cr�er un fichier siteWebPage au centre de graddle
-    //Je vous laisse comment faire #WilliamBenakli
-    public void createPageHtml(String name, String typegraphique) {
-	    	File desc = new File(name+".html");    	
+    public void createPageHtml(String name, String namePlugin, int pluginpos) {
+    		File desc = new File(name+".html");    	
+	    	System.out.println(desc.getPath());
 	    	if(!desc.isDirectory()){
 				FileWriter newfile;
 				try {    
 					newfile = new FileWriter(desc.getPath());
-			    	newfile.write(createCodePageHtml(typegraphique));
+			    	newfile.write(createCodePageHtml(namePlugin, pluginpos));
 					newfile.close();
 				} catch (IOException e) {
 					System.out.println("Fichier non traitable. Une erreur s'est produite veuillez ressayer");
@@ -75,8 +71,8 @@ public class AnalyzerResult {
 				try {
 					Desktop.getDesktop().browse(desc.toURI());
 				} catch (IOException e) {
-					System.out.println("Nous n'avons pas trouv� de navigateur par defaut pour ouvrir la page g�n�r�e.");
-					System.out.println("Cependant les fichiers ont �t� cr�e : siteWebHtml/" + name + ".html");
+					System.out.println("Nous n'avons pas trouve de navigateur par defaut pour ouvrir la page generee.");
+					System.out.println("Cependant les fichiers ont ete cree : " + name + ".html");
 				}
 		}
 }
